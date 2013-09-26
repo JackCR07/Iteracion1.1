@@ -114,6 +114,15 @@ namespace Data
             return funcionarios;
         }
 
+        /// <summary>
+        /// Retorna todos los nombres de los tipos de servicios en un String[]
+        /// </summary>
+        /// <returns></returns>
+        public String[] getLista_Tipo_Servicios()
+        {
+            return new String[] {"Arqueria","Tenis","Español","Matematica","Ajedrez" };
+        }
+
 
         private static Receptor_Data _Instancia;
     }

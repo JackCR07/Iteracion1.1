@@ -65,6 +65,12 @@
     <Compile Include="Eliminar_Servicio.Designer.cs">
       <DependentUpon>Eliminar_Servicio.cs</DependentUpon>
     </Compile>
+    <Compile Include="Horario_Especial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Horario_Especial.Designer.cs">
+      <DependentUpon>Horario_Especial.cs</DependentUpon>
+    </Compile>
     <Compile Include="Lista_Servicios.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +108,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Eliminar_Servicio.resx">
       <DependentUpon>Eliminar_Servicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Horario_Especial.resx">
+      <DependentUpon>Horario_Especial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Lista_Servicios.resx">
       <DependentUpon>Lista_Servicios.cs</DependentUpon>

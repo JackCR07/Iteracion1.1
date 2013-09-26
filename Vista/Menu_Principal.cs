@@ -13,17 +13,30 @@ namespace Vista
 {
     public partial class Menu_Principal : Form
     {
-        public Menu_Principal(bool pEs_Root,String[] pEncargados)
+        public Menu_Principal(bool pEs_Root,String[] pEncargados,String[] pTipo_Servicios)
         {
             InitializeComponent();
             box_Agre_Encargado.Items.AddRange(pEncargados);
             box_Mod_Encargado.Items.AddRange(pEncargados);
+
+            Agre_Combo_HoraInicio.Items.AddRange(_Horas_Default);
+            Agre_Combo_HoraFinal.Items.AddRange(_Horas_Default);
+            Agre_Combo_Dias.Items.AddRange(_Dias_Default);
+
+            Mod_Combo_HoraInicio.Items.AddRange(_Horas_Default);
+            Mod_Combo_HoraFinal.Items.AddRange(_Horas_Default);
+            Mod_Combo_Dias.Items.AddRange(_Dias_Default);
+
+
             if (!pEs_Root)
             { 
                 tab_Agregar.Dispose();
                 tab_Modificar.Dispose();
                 tab_Eliminar.Dispose();
             }
+
+            _Tipo_Servicios = pTipo_Servicios;
+            _Encargados = pEncargados;
         }
 
         //==================== Boton de Mostrar lista de Servicios
@@ -82,10 +95,10 @@ namespace Vista
         {
             _Seleccion_Servicio = txt_Agre_NombreServicio.Text;
             _Encargado = (String)box_Agre_Encargado.SelectedItem;
-            _Dias = txt_Agre_Dias.Text;
-            _Hora_Inicio = txt_Agre_HoraInicio.Text;
+            _Dias = (String)Agre_Combo_Dias.SelectedItem;
+            _Hora_Inicio = (String)Agre_Combo_HoraInicio.SelectedItem;
             _Costo = txt_Agre_Costo.Text;
-            _Hora_Final = txt_Agre_HoraFinal.Text;
+            _Hora_Final = (String)Agre_Combo_HoraFinal.SelectedItem;
             _Cupo_Disponible = txt_Agre_CupoDisponible.Text;
             if(txt_Agre_Descripcion.Text==null)
             {
@@ -114,10 +127,10 @@ namespace Vista
         {
             _Id_Servicio = txt_Mod_NumeroServicio.Text;
             _Encargado = (String)box_Mod_Encargado.SelectedItem;
-            _Dias = txt_Mod_Dias.Text;
-            _Hora_Inicio = txt_Mod_HoraInicio.Text;
+            _Dias = (String) Mod_Combo_Dias.SelectedItem;
+            _Hora_Inicio = (String)Mod_Combo_HoraInicio.SelectedItem;
             _Costo = txt_Mod_Costo.Text;
-            _Hora_Final = txt_Mod_HoraFinal.Text;
+            _Hora_Final = (String)Mod_Combo_HoraFinal.SelectedItem; ;
             _Cupo_Disponible = txt_Mod_CupoDisponible.Text;
             if (txt_Mod_Descripcion.Text == null)
             {
@@ -164,6 +177,23 @@ namespace Vista
         }
 
         //================================================================
+
+
+        //============================================= Boton Servicio Especial
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            _Ventana_Especial = new Horario_Especial(_Horas_Default, _Dias_Default, _Encargados, _Tipo_Servicios);
+            Thread Hilo_Especial = new Thread(Iniciar_Ventana_Especial);
+            Hilo_Especial.Start();
+        }
+
+        private void Iniciar_Ventana_Especial()
+        {
+            Application.Run(_Ventana_Confirmacion);
+        }
+
+        //=================================================================
 
         #region Propiedades de Text Box
         public String Get_Cliente
@@ -221,6 +251,7 @@ namespace Vista
         #endregion
 
         private Eliminar_Servicio _Ventana_Confirmacion;
+        private Horario_Especial _Ventana_Especial;
 
         private String _Nombre_Cliente;
         private String _Nombre_Beneficiado;
@@ -241,7 +272,10 @@ namespace Vista
         public event EventHandler Modificar_Servi;
         public event EventHandler Ev_Eliminar_Servicio;
 
-
+        private String[] _Horas_Default = new String[] { "7:00:", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00" };
+        private String[] _Dias_Default = new String[] {"L","K","M","J","V","L-K","L-M","L-J","L-V","K-M","K-J","K-V","M-J","M-V","J-V" };
+        private String[] _Tipo_Servicios;
+        private String[] _Encargados;
 
 
 
@@ -296,6 +330,7 @@ namespace Vista
 
         }
         #endregion
+
 
 
 

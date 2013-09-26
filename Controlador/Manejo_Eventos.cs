@@ -54,11 +54,10 @@ namespace Controlador
                      _Abrir_Login = false;
                     Esconder_Login();
                     break;
-                case "NULL":
-                    Console.WriteLine("EL USUARIO NO EXISTE");
-                    break;
                 default:
-                    Console.WriteLine("ESTE USUARIO NO PUEDE USAR LA APP");
+                    Console.WriteLine("EL USUARIO NO EXISTE");
+                    Thread Hilo_Mal_Usuario = new Thread(Ventana_Denegada);
+                    Hilo_Mal_Usuario.Start();
                     break;
 
             }
@@ -68,7 +67,7 @@ namespace Controlador
 
         private void Correr_Menu(Object pEs_Root)
         {
-            _Menu_Princiapal = new Menu_Principal((bool)pEs_Root,Receptor_Data.getInstance.getLista_Funcionarios_Maestros());
+            _Menu_Princiapal = new Menu_Principal((bool)pEs_Root,Receptor_Data.getInstance.getLista_Funcionarios_Maestros(),Receptor_Data.getInstance.getLista_Tipo_Servicios());
             _Menu_Princiapal.Abrir_Lista_Servicios += Abrir_Lista_Servicios;
             _Menu_Princiapal.Abrir_Generar_Contrato += Generar_Contrato;
             _Menu_Princiapal.Volver_Login += Volver_Ventana_Login;
