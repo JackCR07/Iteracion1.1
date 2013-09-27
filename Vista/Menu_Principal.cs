@@ -17,9 +17,6 @@ namespace Vista
         public Menu_Principal(bool pEs_Root,String[] pEncargados,String[] pTipo_Servicios)
         {
             InitializeComponent();
-            box_Agre_Encargado.Items.AddRange(pEncargados);
-            box_Mod_Encargado.Items.AddRange(pEncargados);
-            box_Agre_NombreServicio.Items.AddRange(pTipo_Servicios);
 
             Agre_Combo_HoraInicio.Items.AddRange(_Horas_Default);
             Agre_Combo_HoraFinal.Items.AddRange(_Horas_Default);
@@ -31,9 +28,6 @@ namespace Vista
             Mod_Combo_Dias.Items.AddRange(_Dias_Default);
 
             // DEFAULT VALUES
-            box_Agre_Encargado.SelectedIndex = 0;
-            box_Mod_Encargado.SelectedIndex = 0;
-            box_Agre_NombreServicio.SelectedIndex = 0;
 
             Agre_Combo_HoraInicio.SelectedIndex = 0;
             Agre_Combo_HoraFinal.SelectedIndex = 1;
@@ -117,8 +111,7 @@ namespace Vista
         //============================ Bonton Agregar nuevo servicio
         private void button4_Click(object sender, EventArgs e)
         {
-            _Seleccion_Servicio = (String)box_Agre_NombreServicio.SelectedItem;
-            _Encargado = (String)box_Agre_Encargado.SelectedItem;
+            _Seleccion_Servicio = (String)txt_agre_serv.Text;
             _Dias = (String)Agre_Combo_Dias.SelectedItem;
             _Hora_Inicio = (String)Agre_Combo_HoraInicio.SelectedItem;
             _Costo = nume_Agre_Costo.Text;
@@ -153,7 +146,6 @@ namespace Vista
             if (int.TryParse(txt_Mod_NumeroServicio.Text, out Temp))
             {
                 _Id_Servicio = txt_Mod_NumeroServicio.Text;
-                _Encargado = (String)box_Mod_Encargado.SelectedItem;
                 _Dias = (String)Mod_Combo_Dias.SelectedItem;
                 _Hora_Inicio = (String)Mod_Combo_HoraInicio.SelectedItem;
                 _Costo = nume_Mod_Costo.Text;

@@ -31,13 +31,11 @@
             this.tab_Agregar = new System.Windows.Forms.TabPage();
             this.nume_Agre_CupoDisponible = new System.Windows.Forms.NumericUpDown();
             this.nume_Agre_Costo = new System.Windows.Forms.NumericUpDown();
-            this.box_Agre_NombreServicio = new System.Windows.Forms.ComboBox();
             this.Agre_Combo_Dias = new System.Windows.Forms.ComboBox();
             this.Agre_Combo_HoraFinal = new System.Windows.Forms.ComboBox();
             this.Agre_Combo_HoraInicio = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
-            this.box_Agre_Encargado = new System.Windows.Forms.ComboBox();
             this.label21 = new System.Windows.Forms.Label();
             this.txt_Agre_Descripcion = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
@@ -45,7 +43,6 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.tab_Todo = new System.Windows.Forms.TabControl();
@@ -68,13 +65,11 @@
             this.Mod_Combo_HoraFinal = new System.Windows.Forms.ComboBox();
             this.Mod_Combo_HoraInicio = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.box_Mod_Encargado = new System.Windows.Forms.ComboBox();
             this.txt_Mod_Descripcion = new System.Windows.Forms.TextBox();
             this.txt_Mod_NumeroServicio = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.label32 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
@@ -90,6 +85,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.check_Especiales = new System.Windows.Forms.CheckBox();
+            this.txt_agre_serv = new System.Windows.Forms.TextBox();
             this.tab_Agregar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nume_Agre_CupoDisponible)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nume_Agre_Costo)).BeginInit();
@@ -105,15 +101,14 @@
             // tab_Agregar
             // 
             this.tab_Agregar.BackColor = System.Drawing.Color.White;
+            this.tab_Agregar.Controls.Add(this.txt_agre_serv);
             this.tab_Agregar.Controls.Add(this.nume_Agre_CupoDisponible);
             this.tab_Agregar.Controls.Add(this.nume_Agre_Costo);
-            this.tab_Agregar.Controls.Add(this.box_Agre_NombreServicio);
             this.tab_Agregar.Controls.Add(this.Agre_Combo_Dias);
             this.tab_Agregar.Controls.Add(this.Agre_Combo_HoraFinal);
             this.tab_Agregar.Controls.Add(this.Agre_Combo_HoraInicio);
             this.tab_Agregar.Controls.Add(this.label14);
             this.tab_Agregar.Controls.Add(this.label24);
-            this.tab_Agregar.Controls.Add(this.box_Agre_Encargado);
             this.tab_Agregar.Controls.Add(this.label21);
             this.tab_Agregar.Controls.Add(this.txt_Agre_Descripcion);
             this.tab_Agregar.Controls.Add(this.button4);
@@ -121,7 +116,6 @@
             this.tab_Agregar.Controls.Add(this.label11);
             this.tab_Agregar.Controls.Add(this.label10);
             this.tab_Agregar.Controls.Add(this.label9);
-            this.tab_Agregar.Controls.Add(this.label6);
             this.tab_Agregar.Controls.Add(this.label5);
             this.tab_Agregar.Location = new System.Drawing.Point(4, 25);
             this.tab_Agregar.Name = "tab_Agregar";
@@ -152,14 +146,6 @@
             this.nume_Agre_Costo.Name = "nume_Agre_Costo";
             this.nume_Agre_Costo.Size = new System.Drawing.Size(125, 20);
             this.nume_Agre_Costo.TabIndex = 47;
-            // 
-            // box_Agre_NombreServicio
-            // 
-            this.box_Agre_NombreServicio.FormattingEnabled = true;
-            this.box_Agre_NombreServicio.Location = new System.Drawing.Point(109, 107);
-            this.box_Agre_NombreServicio.Name = "box_Agre_NombreServicio";
-            this.box_Agre_NombreServicio.Size = new System.Drawing.Size(119, 21);
-            this.box_Agre_NombreServicio.TabIndex = 46;
             // 
             // Agre_Combo_Dias
             // 
@@ -204,14 +190,6 @@
             this.label24.Size = new System.Drawing.Size(82, 20);
             this.label24.TabIndex = 40;
             this.label24.Text = "Hora Final";
-            // 
-            // box_Agre_Encargado
-            // 
-            this.box_Agre_Encargado.FormattingEnabled = true;
-            this.box_Agre_Encargado.Location = new System.Drawing.Point(340, 107);
-            this.box_Agre_Encargado.Name = "box_Agre_Encargado";
-            this.box_Agre_Encargado.Size = new System.Drawing.Size(119, 21);
-            this.box_Agre_Encargado.TabIndex = 35;
             // 
             // label21
             // 
@@ -284,25 +262,15 @@
             this.label9.TabIndex = 4;
             this.label9.Text = "Costo";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(336, 73);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(87, 20);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Encargado";
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(105, 73);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(102, 20);
+            this.label5.Size = new System.Drawing.Size(124, 20);
             this.label5.TabIndex = 0;
-            this.label5.Text = "Tipo  Servicio";
+            this.label5.Text = "Nombre Servicio";
             this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // button6
@@ -478,13 +446,11 @@
             this.tab_Modificar.Controls.Add(this.Mod_Combo_HoraFinal);
             this.tab_Modificar.Controls.Add(this.Mod_Combo_HoraInicio);
             this.tab_Modificar.Controls.Add(this.label15);
-            this.tab_Modificar.Controls.Add(this.box_Mod_Encargado);
             this.tab_Modificar.Controls.Add(this.txt_Mod_Descripcion);
             this.tab_Modificar.Controls.Add(this.txt_Mod_NumeroServicio);
             this.tab_Modificar.Controls.Add(this.button7);
             this.tab_Modificar.Controls.Add(this.label32);
             this.tab_Modificar.Controls.Add(this.label31);
-            this.tab_Modificar.Controls.Add(this.label30);
             this.tab_Modificar.Controls.Add(this.label29);
             this.tab_Modificar.Controls.Add(this.label28);
             this.tab_Modificar.Controls.Add(this.label27);
@@ -555,14 +521,6 @@
             this.label15.TabIndex = 17;
             this.label15.Text = "Cupo Disponible";
             // 
-            // box_Mod_Encargado
-            // 
-            this.box_Mod_Encargado.FormattingEnabled = true;
-            this.box_Mod_Encargado.Location = new System.Drawing.Point(354, 115);
-            this.box_Mod_Encargado.Name = "box_Mod_Encargado";
-            this.box_Mod_Encargado.Size = new System.Drawing.Size(120, 21);
-            this.box_Mod_Encargado.TabIndex = 16;
-            // 
             // txt_Mod_Descripcion
             // 
             this.txt_Mod_Descripcion.Location = new System.Drawing.Point(108, 325);
@@ -610,16 +568,6 @@
             this.label31.TabIndex = 6;
             this.label31.Text = "Costo";
             // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(350, 81);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(87, 20);
-            this.label30.TabIndex = 5;
-            this.label30.Text = "Encargado";
-            // 
             // label29
             // 
             this.label29.AutoSize = true;
@@ -656,9 +604,9 @@
             this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label26.Location = new System.Drawing.Point(104, 81);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(124, 20);
+            this.label26.Size = new System.Drawing.Size(85, 20);
             this.label26.TabIndex = 1;
-            this.label26.Text = "Número Servicio";
+            this.label26.Text = "ID Servicio";
             // 
             // label25
             // 
@@ -782,6 +730,13 @@
             this.check_Especiales.Text = "Mostrar Especiales";
             this.check_Especiales.UseVisualStyleBackColor = false;
             // 
+            // txt_agre_serv
+            // 
+            this.txt_agre_serv.Location = new System.Drawing.Point(111, 107);
+            this.txt_agre_serv.Name = "txt_agre_serv";
+            this.txt_agre_serv.Size = new System.Drawing.Size(116, 20);
+            this.txt_agre_serv.TabIndex = 49;
+            // 
             // Menu_Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -827,7 +782,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Label label20;
@@ -845,20 +799,17 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox txt_Agre_Descripcion;
-        private System.Windows.Forms.ComboBox box_Agre_Encargado;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TabPage tab_Modificar;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.ComboBox box_Mod_Encargado;
         private System.Windows.Forms.TextBox txt_Mod_Descripcion;
         private System.Windows.Forms.TextBox txt_Mod_NumeroServicio;
         private System.Windows.Forms.TabPage tab_Eliminar;
@@ -877,12 +828,12 @@
         private System.Windows.Forms.ComboBox Mod_Combo_HoraFinal;
         private System.Windows.Forms.ComboBox Mod_Combo_HoraInicio;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.ComboBox box_Agre_NombreServicio;
         private System.Windows.Forms.NumericUpDown nume_Agre_Costo;
         private System.Windows.Forms.NumericUpDown nume_Agre_CupoDisponible;
         private System.Windows.Forms.NumericUpDown nume_Mod_CupoDisponible;
         private System.Windows.Forms.NumericUpDown nume_Mod_Costo;
         private System.Windows.Forms.CheckBox check_Especiales;
+        private System.Windows.Forms.TextBox txt_agre_serv;
 
     }
 }
