@@ -48,8 +48,8 @@ namespace Data
                 cmd.Parameters.Add(new MySqlParameter("cup", pDato.getCupo_Disponible));
                 cmd.Parameters.Add(new MySqlParameter("cost", cost));
                 cmd.Parameters.Add(new MySqlParameter("dia", pHorario.getDias));
-                cmd.Parameters.Add(new MySqlParameter("h1", pHorario.getHora_Inicio));
-                cmd.Parameters.Add(new MySqlParameter("h2", pHorario.getHora_Final));
+                cmd.Parameters.Add(new MySqlParameter("h1", pHorario.getHora_Inicio.ToString()+":00"));
+                cmd.Parameters.Add(new MySqlParameter("h2", pHorario.getHora_Final.ToString() + ":00"));
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }
@@ -65,7 +65,19 @@ namespace Data
         /// <returns></returns> Si nose puede almacenar el servicio devuelve false de lo contrario True
         public bool Almacenar_Servicio_Especial(Servicio pDato, Horario pHorario)
         {
-            Console.WriteLine(pDato.getNombre);
+            Conector coneccion = new Conector();
+            bool conecto = coneccion.OpenConnection();
+            if (conecto)
+            {
+                MySqlCommand cmd = new MySqlCommand("horarioespecial", coneccion.connection);
+                cmd.Parameters.Add(new MySqlParameter("nom", pDato.getNombre));
+                cmd.Parameters.Add(new MySqlParameter("dia", pHorario.getDias));
+                cmd.Parameters.Add(new MySqlParameter("h1", pHorario.getHora_Inicio.ToString() + ":00"));
+                cmd.Parameters.Add(new MySqlParameter("h2", pHorario.getHora_Final.ToString() + ":00"));
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            conecto = coneccion.CloseConnection();
             return true;
         }
 
@@ -90,8 +102,8 @@ namespace Data
                 cmd.Parameters.Add(new MySqlParameter("cup", pNuevo_Servicio.getCupo_Disponible));
                 cmd.Parameters.Add(new MySqlParameter("cost", cost));
                 cmd.Parameters.Add(new MySqlParameter("dia", pNuevo_Horario.getDias));
-                cmd.Parameters.Add(new MySqlParameter("h1", pNuevo_Horario.getHora_Inicio));
-                cmd.Parameters.Add(new MySqlParameter("h2", pNuevo_Horario.getHora_Final));
+                cmd.Parameters.Add(new MySqlParameter("h1", pNuevo_Horario.getHora_Inicio.ToString() + ":00"));
+                cmd.Parameters.Add(new MySqlParameter("h2", pNuevo_Horario.getHora_Final.ToString() + ":00"));
                 cmd.Parameters.Add(new MySqlParameter("res", res));
                 cmd.Parameters[6].Direction = ParameterDirection.Output;
                 cmd.CommandType = CommandType.StoredProcedure;

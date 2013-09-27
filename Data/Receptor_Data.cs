@@ -93,7 +93,20 @@ namespace Data
         /// <returns></returns>
         public String getLista_Servicios_Sin_Especiales()
         {
-            return "SIN ESPECIALES";
+            Conector coneccion = new Conector();
+            String servicios = "";
+            bool conecto = coneccion.OpenConnection();
+            if (conecto)
+            {
+                MySqlCommand cmd = new MySqlCommand("listaserviciosespeciales", coneccion.connection);
+                cmd.Parameters.Add(new MySqlParameter("lista", servicios));
+                cmd.Parameters[0].Direction = ParameterDirection.Output;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+                servicios = cmd.Parameters[0].Value.ToString();
+            }
+            conecto = coneccion.CloseConnection();
+            return servicios;
         }
 
 
@@ -130,7 +143,20 @@ namespace Data
         /// <returns></returns>
         public String[] getLista_Tipo_Servicios()
         {
-            return new String[] {"Arqueria","Tenis","Español","Matematica","Ajedrez" };
+            Conector coneccion = new Conector();
+            String servicios = null;
+            bool conecto = coneccion.OpenConnection();
+            if (conecto)
+            {
+                MySqlCommand cmd = new MySqlCommand("listaservicioshe", coneccion.connection);
+                cmd.Parameters.Add(new MySqlParameter("serv", servicios));
+                cmd.Parameters[0].Direction = ParameterDirection.Output;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+                servicios = cmd.Parameters[0].Value.ToString();
+            }
+            conecto = coneccion.CloseConnection();
+            return servicios.ToString().Split(',');
         }
 
 

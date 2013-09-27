@@ -339,7 +339,7 @@ namespace Vista
         public event EventHandler Ev_Eliminar_Servicio;
         public event EventHandler Ev_Agregar_Servicio_Especial;
 
-        private String[] _Horas_Default = new String[] { "7:00:", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00" };
+        private String[] _Horas_Default = new String[] { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00" };
         private String[] _Dias_Default = new String[] {"L","K","M","J","V","L-K","L-M","L-J","L-V","K-M","K-J","K-V","M-J","M-V","J-V" };
         private String[] _Tipo_Servicios;
         private String[] _Encargados;

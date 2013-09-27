@@ -28,7 +28,7 @@ namespace Data
             server = "localhost";
             database = "cii";
             uid = "root";
-            password = "root";
+            password = "jack";
             string connectionString;
             connectionString = "SERVER=" + server + ";" + "DATABASE=" +
             database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";

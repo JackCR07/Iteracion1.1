@@ -65,7 +65,7 @@ CREATE TABLE `cii_contrato` (
   KEY `cii_usuario_id` (`fk_cii_usuario_id`),
   CONSTRAINT `cii_usuario_id` FOREIGN KEY (`fk_cii_usuario_id`) REFERENCES `cii_usuario` (`ID`),
   CONSTRAINT `fk_CII_Contrato_CII_Funcionario1` FOREIGN KEY (`CII_Funcionario_ID`) REFERENCES `cii_funcionario` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,6 @@ CREATE TABLE `cii_contrato` (
 
 LOCK TABLES `cii_contrato` WRITE;
 /*!40000 ALTER TABLE `cii_contrato` DISABLE KEYS */;
-INSERT INTO `cii_contrato` VALUES (1,'pedro',6500,1,1),(2,'juan',11000,1,1),(3,'paco',11000,2,1),(4,'Julio',6500,2,1),(5,'aeg',10000,1,1),(6,'gre',10000,2,1);
 /*!40000 ALTER TABLE `cii_contrato` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -94,7 +93,7 @@ CREATE TABLE `cii_contratoxhorarioxservicio` (
   KEY `fk_CII_ContratoxHorarioxServicio_CII_HorarioxServicio1_idx` (`FK_CII_HorarioxServicio_ID`),
   CONSTRAINT `fk_CII_ContratoxHorarioxServicio_CII_Contrato1` FOREIGN KEY (`FK_CII_Contrato_ID`) REFERENCES `cii_contrato` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_CII_ContratoxHorarioxServicio_CII_HorarioxServicio1` FOREIGN KEY (`FK_CII_HorarioxServicio_ID`) REFERENCES `cii_horarioxservicio` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,7 +102,6 @@ CREATE TABLE `cii_contratoxhorarioxservicio` (
 
 LOCK TABLES `cii_contratoxhorarioxservicio` WRITE;
 /*!40000 ALTER TABLE `cii_contratoxhorarioxservicio` DISABLE KEYS */;
-INSERT INTO `cii_contratoxhorarioxservicio` VALUES (1,3,1),(2,3,2),(3,3,3),(4,3,4),(5,3,5),(6,4,2),(7,4,3),(8,4,4),(9,4,5),(10,4,9),(11,6,1),(12,6,10);
 /*!40000 ALTER TABLE `cii_contratoxhorarioxservicio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,7 +120,7 @@ CREATE TABLE `cii_funcionario` (
   PRIMARY KEY (`ID`),
   KEY `fk_CII_Funcionario_CII_TipoFuncionario_idx` (`CII_TipoFuncionario_ID`),
   CONSTRAINT `fk_CII_Funcionario_CII_TipoFuncionario` FOREIGN KEY (`CII_TipoFuncionario_ID`) REFERENCES `cii_tipofuncionario` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +129,7 @@ CREATE TABLE `cii_funcionario` (
 
 LOCK TABLES `cii_funcionario` WRITE;
 /*!40000 ALTER TABLE `cii_funcionario` DISABLE KEYS */;
-INSERT INTO `cii_funcionario` VALUES (1,'Jack','ÿÓ∆õ-|pΩKCy∏¿+ò¡',1),(2,'Fabian','ÿÓ∆õ-|pΩKCy∏¿+ò¡',1);
+INSERT INTO `cii_funcionario` VALUES (1,'Jack',AES_ENCRYPT('hola','supreme'),1),(2,'Fabian',AES_ENCRYPT('hola','supreme'),1),(3,'Fefo',AES_ENCRYPT('hola','supreme'),2);
 /*!40000 ALTER TABLE `cii_funcionario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,7 +228,7 @@ CREATE TABLE `cii_tipofuncionario` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(15) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -239,7 +237,7 @@ CREATE TABLE `cii_tipofuncionario` (
 
 LOCK TABLES `cii_tipofuncionario` WRITE;
 /*!40000 ALTER TABLE `cii_tipofuncionario` DISABLE KEYS */;
-INSERT INTO `cii_tipofuncionario` VALUES (1,'ROOT');
+INSERT INTO `cii_tipofuncionario` VALUES (1,'ROOT'),(2,'USUARIO');
 /*!40000 ALTER TABLE `cii_tipofuncionario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,7 +286,7 @@ CREATE TABLE `cii_usuario` (
 
 LOCK TABLES `cii_usuario` WRITE;
 /*!40000 ALTER TABLE `cii_usuario` DISABLE KEYS */;
-INSERT INTO `cii_usuario` VALUES (1,'Ricardo','ÿÓ∆õ-|pΩKCy∏¿+ò¡');
+INSERT INTO `cii_usuario` VALUES (1,'Ricardo','√ò√Æ√Ü¬õ-|p¬ΩKCy¬∏√Ä+¬ò√Å');
 /*!40000 ALTER TABLE `cii_usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -336,6 +334,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CostoServicio`(in ids int,out cost float,out res bool)
 BEGIN
 set res=false;
+set ids=(select fk_cii_servicio_id from cii_horarioxservicio where id=ids);
 set cost=(SELECT `Costo` FROM `cii`.`cii_servicio` where id=ids);
 if cost is not null then
 set res=true;
@@ -388,13 +387,8 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `enlazarcontratohorario`(in idc int, in ids int)
 BEGIN
-declare idh int;
-set idh=(select fk_cii_horario_id from cii_horarioxservicio where fk_cii_servicio_id=ids limit 1);
-while ids=(select fk_cii_servicio_id from cii_horarioxservicio where fk_cii_horario_id=idh) do
 Insert into cii_contratoxhorarioxservicio(fk_cii_contrato_id,fk_cii_horarioxservicio_id)
-values(idc,idh);
-set idh=idh+1;
-end while;
+values(idc,ids);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -434,25 +428,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `listaservicios`(OUT lista varchar(1
 BEGIN
 declare ids int default 1;
 declare idh int default 1;
+declare idhs int default 1;
 declare nom varchar(20);
 declare d varchar(50);
 declare h1 time;
 declare h2 time;
 declare maxid int;
 set lista='';
-set maxid=(select max(id) from cii_servicio);
-while ids<=maxid DO
-set nom=(select Nombre from cii_servicio where ID=ids);
-set lista=concat(lista,' ',ids,' ',nom,' ');
-while ids=(select fk_cii_servicio_id from cii_horarioxservicio where fk_cii_horario_id=idh) do
+set maxid=(select max(id) from cii_horarioxservicio);
+while idhs<=maxid DO
+set ids=(select fk_cii_servicio_id from cii_horarioxservicio where ID=idhs);
+set idh=(select fk_cii_horario_id from cii_horarioxservicio where ID=idhs);
+set nom=(select nombre from cii_servicio where id=ids);
 set @d=(select Dias from cii_horario where id=idh);
 set @h1=(select HoraInicio from cii_horario where id=idh);
 set @h2=(select @h2:=HoraFin from cii_horario where id=idh);
-set lista=concat(lista,' ',@d,' ',@h1,'-',@h2,' ');
-set idh=idh+1;
-end while;
+set lista=concat(lista,idhs,' ',nom,' ',@d,' ',@h1,'-',@h2,' ');
 set lista=concat(lista,'\n');
-set ids=ids+1;
+set idhs=idhs+1;
 END WHILE;
 
 END ;;
@@ -584,4 +577,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-09-23 15:14:07
+-- Dump completed on 2013-09-27  5:08:19
