@@ -58,6 +58,18 @@ namespace Data
         }
 
         /// <summary>
+        /// Almacena un Servicio de tipo ESPECIAL, habiamos hablado que esto era algun tipo de flag en los servicios
+        /// </summary>
+        /// <param name="pDato"></param>
+        /// <param name="pHorario"></param>
+        /// <returns></returns> Si nose puede almacenar el servicio devuelve false de lo contrario True
+        public bool Almacenar_Servicio_Especial(Servicio pDato, Horario pHorario)
+        {
+            Console.WriteLine(pDato.getNombre);
+            return true;
+        }
+
+        /// <summary>
         /// Dado un id de servicio caerle encima a sus datos con los del nuevo servicio, a excepcion del nombre del servicio
         /// Si lo atributos vienen en vacio , no hacer UPDATE DE ESE ATRIBUTO
         /// </summary>

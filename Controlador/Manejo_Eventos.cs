@@ -74,13 +74,21 @@ namespace Controlador
             _Menu_Princiapal.Almacenar_Servicio += Almacenar_Servicio;
             _Menu_Princiapal.Modificar_Servi += Modificar_Servicio;
             _Menu_Princiapal.Ev_Eliminar_Servicio += Eliminar_Servicio;
+            _Menu_Princiapal.Ev_Agregar_Servicio_Especial += Agregar_Servicio_Nuevo_Especial;
             Application.Run(_Menu_Princiapal);
         }
 
         private void Abrir_Lista_Servicios(Object sender, EventArgs e)
         {
             Thread Hilo_Ventana = new Thread(Ventana_Servicios);
-            Hilo_Ventana.Start(Receptor_Data.getInstance.getLista_Servicios());
+            if ((bool)sender)
+            {
+                Hilo_Ventana.Start(Receptor_Data.getInstance.getLista_Servicios());
+            }
+            else
+            {
+                Hilo_Ventana.Start(Receptor_Data.getInstance.getLista_Servicios_Sin_Especiales());
+            }
         }
         private void Generar_Contrato(Object sender, EventArgs e)
         {
@@ -158,6 +166,24 @@ namespace Controlador
                 Thread Hilo_Generar_Contrato = new Thread(Ventana_Denegada);
                 Hilo_Generar_Contrato.Start();
             }
+        }
+
+        private void Agregar_Servicio_Nuevo_Especial(Object Sender, EventArgs e)
+        {
+            Horario_Especial _Especial = (Horario_Especial)Sender;
+            Servicio _Nuevo_Servicio = new Servicio(_Especial.Get_Tipo_Servicio, "", "0", _Especial.Get_Funcionario, "0");
+            Horario _Nuevo_Horario = new Horario(_Especial.Get_Hora_Inicio, _Especial.Get_Hora_Final, _Especial.Get_Dias);
+            if (Emisor_Data.getInstance.Almacenar_Servicio_Especial(_Nuevo_Servicio, _Nuevo_Horario))
+            {
+                Thread Hilo_Generar_Contrato = new Thread(Ventana_Exito);
+                Hilo_Generar_Contrato.Start();
+            }
+            else
+            {
+                Thread Hilo_Generar_Contrato = new Thread(Ventana_Denegada);
+                Hilo_Generar_Contrato.Start();
+            }
+
         }
         // =================================================================
 

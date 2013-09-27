@@ -88,6 +88,16 @@ namespace Data
         }
 
         /// <summary>
+        /// Retorna en el mismo formato de getLista_Servicios, con la restriccion que no devuelve los servicios que estan marcados como especiales
+        /// </summary>
+        /// <returns></returns>
+        public String getLista_Servicios_Sin_Especiales()
+        {
+            return "SIN ESPECIALES";
+        }
+
+
+        /// <summary>
         /// Devuevle una lista de todos los nombres de los funcionario de tipo maestro en un array de String[]
         /// </summary>
         /// <returns></returns>

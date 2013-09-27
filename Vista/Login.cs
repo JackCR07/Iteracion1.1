@@ -56,5 +56,10 @@ namespace Vista
         public event EventHandler Cambio_De_Datos;
         private String _Usuario;
         private String _Contrasenia;
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            this.Dispose();
+        }
     }
 }

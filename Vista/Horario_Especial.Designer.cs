@@ -107,7 +107,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(41, 20);
             this.label5.TabIndex = 6;
-            this.label5.Text = "Dias";
+            this.label5.Text = "Días";
             // 
             // combo_HoraFinal
             // 
@@ -155,6 +155,7 @@
             this.button4.TabIndex = 28;
             this.button4.Text = "Agregar";
             this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button1
             // 
@@ -167,6 +168,7 @@
             this.button1.TabIndex = 29;
             this.button1.Text = "Volver a Menu";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Horario_Especial
             // 
@@ -188,6 +190,7 @@
             this.Controls.Add(this.combo_Tipo_Servicio);
             this.Controls.Add(this.label1);
             this.Name = "Horario_Especial";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Horario_Especial";
             this.ResumeLayout(false);
             this.PerformLayout();

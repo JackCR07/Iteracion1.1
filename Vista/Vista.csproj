@@ -65,6 +65,12 @@
     <Compile Include="Eliminar_Servicio.Designer.cs">
       <DependentUpon>Eliminar_Servicio.cs</DependentUpon>
     </Compile>
+    <Compile Include="Errorcs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Errorcs.Designer.cs">
+      <DependentUpon>Errorcs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Horario_Especial.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +115,9 @@
     <EmbeddedResource Include="Eliminar_Servicio.resx">
       <DependentUpon>Eliminar_Servicio.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Errorcs.resx">
+      <DependentUpon>Errorcs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Horario_Especial.resx">
       <DependentUpon>Horario_Especial.cs</DependentUpon>
     </EmbeddedResource>
@@ -128,7 +137,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Precaucion2.jpg" />
+    <None Include="Resources\Mal.jpg" />
     <None Include="Resources\fondo.jpg" />
+    <None Include="Resources\Bien.jpg" />
+    <None Include="Resources\Login.png" />
     <Content Include="Resources\Logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

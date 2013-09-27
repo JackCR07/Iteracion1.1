@@ -13,19 +13,35 @@ namespace Vista
 {
     public partial class Menu_Principal : Form
     {
+        #region Constructor
         public Menu_Principal(bool pEs_Root,String[] pEncargados,String[] pTipo_Servicios)
         {
             InitializeComponent();
             box_Agre_Encargado.Items.AddRange(pEncargados);
             box_Mod_Encargado.Items.AddRange(pEncargados);
+            box_Agre_NombreServicio.Items.AddRange(pTipo_Servicios);
 
             Agre_Combo_HoraInicio.Items.AddRange(_Horas_Default);
             Agre_Combo_HoraFinal.Items.AddRange(_Horas_Default);
             Agre_Combo_Dias.Items.AddRange(_Dias_Default);
+            
 
             Mod_Combo_HoraInicio.Items.AddRange(_Horas_Default);
             Mod_Combo_HoraFinal.Items.AddRange(_Horas_Default);
             Mod_Combo_Dias.Items.AddRange(_Dias_Default);
+
+            // DEFAULT VALUES
+            box_Agre_Encargado.SelectedIndex = 0;
+            box_Mod_Encargado.SelectedIndex = 0;
+            box_Agre_NombreServicio.SelectedIndex = 0;
+
+            Agre_Combo_HoraInicio.SelectedIndex = 0;
+            Agre_Combo_HoraFinal.SelectedIndex = 1;
+            Agre_Combo_Dias.SelectedIndex = 0;
+
+            Mod_Combo_HoraInicio.SelectedIndex = 0;
+            Mod_Combo_HoraFinal.SelectedIndex = 1;
+            Mod_Combo_Dias.SelectedIndex = 0;
 
 
             if (!pEs_Root)
@@ -38,7 +54,7 @@ namespace Vista
             _Tipo_Servicios = pTipo_Servicios;
             _Encargados = pEncargados;
         }
-
+        #endregion
         //==================== Boton de Mostrar lista de Servicios
         private void button6_Click(object sender, EventArgs e)
         {
@@ -50,7 +66,15 @@ namespace Vista
         {
             if (Abrir_Lista_Servicios != null)
             {
-                Abrir_Lista_Servicios(this, EventArgs.Empty);
+                if (check_Especiales.Checked)
+                {
+                    Abrir_Lista_Servicios(true, EventArgs.Empty);
+                }
+                else
+                {
+                    Abrir_Lista_Servicios(false, EventArgs.Empty);
+
+                }
             }
         }
         //=======================================================
@@ -93,13 +117,13 @@ namespace Vista
         //============================ Bonton Agregar nuevo servicio
         private void button4_Click(object sender, EventArgs e)
         {
-            _Seleccion_Servicio = txt_Agre_NombreServicio.Text;
+            _Seleccion_Servicio = (String)box_Agre_NombreServicio.SelectedItem;
             _Encargado = (String)box_Agre_Encargado.SelectedItem;
             _Dias = (String)Agre_Combo_Dias.SelectedItem;
             _Hora_Inicio = (String)Agre_Combo_HoraInicio.SelectedItem;
-            _Costo = txt_Agre_Costo.Text;
+            _Costo = nume_Agre_Costo.Text;
             _Hora_Final = (String)Agre_Combo_HoraFinal.SelectedItem;
-            _Cupo_Disponible = txt_Agre_CupoDisponible.Text;
+            _Cupo_Disponible = nume_Agre_CupoDisponible.Text;
             if(txt_Agre_Descripcion.Text==null)
             {
                 _Descripcion = "No hay despcripcion del servicio";
@@ -125,22 +149,32 @@ namespace Vista
 
         private void button7_Click(object sender, EventArgs e)
         {
-            _Id_Servicio = txt_Mod_NumeroServicio.Text;
-            _Encargado = (String)box_Mod_Encargado.SelectedItem;
-            _Dias = (String) Mod_Combo_Dias.SelectedItem;
-            _Hora_Inicio = (String)Mod_Combo_HoraInicio.SelectedItem;
-            _Costo = txt_Mod_Costo.Text;
-            _Hora_Final = (String)Mod_Combo_HoraFinal.SelectedItem; ;
-            _Cupo_Disponible = txt_Mod_CupoDisponible.Text;
-            if (txt_Mod_Descripcion.Text == null)
+            int Temp;
+            if (int.TryParse(txt_Mod_NumeroServicio.Text, out Temp))
             {
-                _Descripcion = "No hay despcripcion del servicio";
+                _Id_Servicio = txt_Mod_NumeroServicio.Text;
+                _Encargado = (String)box_Mod_Encargado.SelectedItem;
+                _Dias = (String)Mod_Combo_Dias.SelectedItem;
+                _Hora_Inicio = (String)Mod_Combo_HoraInicio.SelectedItem;
+                _Costo = nume_Mod_Costo.Text;
+                _Hora_Final = (String)Mod_Combo_HoraFinal.SelectedItem; ;
+                _Cupo_Disponible = nume_Mod_CupoDisponible.Text;
+                if (txt_Mod_Descripcion.Text == null)
+                {
+                    _Descripcion = "No hay despcripcion del servicio";
+                }
+                else
+                {
+                    _Descripcion = txt_Mod_Descripcion.Text;
+                }
+                Modificar_Servicio();
             }
             else
             {
-                _Descripcion = txt_Mod_Descripcion.Text;
+                _Ventana_Error = new Errorcs();
+                Thread Hilo_Error = new Thread(Iniciar_Ventana_Error);
+                Hilo_Error.Start();
             }
-            Modificar_Servicio();
         }
 
         public void Modificar_Servicio()
@@ -156,11 +190,22 @@ namespace Vista
 
         private void button3_Click(object sender, EventArgs e)
         {
-            _Id_Servicio = txt_Eli_NumeroServicio.Text;
-            _Ventana_Confirmacion = new Eliminar_Servicio();
-            _Ventana_Confirmacion.Ev_Confirma_Elminar += Eliminar_Servicio;
-            Thread Hilo_Confirmacion = new Thread(Iniciar_Ventana);
-            Hilo_Confirmacion.Start();
+
+            int Temp;
+            if (int.TryParse(txt_Eli_NumeroServicio.Text, out Temp))
+            {
+                _Id_Servicio = txt_Eli_NumeroServicio.Text;
+                _Ventana_Confirmacion = new Eliminar_Servicio();
+                _Ventana_Confirmacion.Ev_Confirma_Elminar += Eliminar_Servicio;
+                Thread Hilo_Confirmacion = new Thread(Iniciar_Ventana);
+                Hilo_Confirmacion.Start();
+            }
+            else
+            {
+                _Ventana_Error = new Errorcs();
+                Thread Hilo_Error = new Thread(Iniciar_Ventana_Error);
+                Hilo_Error.Start();
+            }
         }
 
 
@@ -184,18 +229,35 @@ namespace Vista
         private void button5_Click(object sender, EventArgs e)
         {
             _Ventana_Especial = new Horario_Especial(_Horas_Default, _Dias_Default, _Encargados, _Tipo_Servicios);
+            _Ventana_Especial.Ev_Horario_Especial += Agregar_Nuevo_Servicio_Especial;
             Thread Hilo_Especial = new Thread(Iniciar_Ventana_Especial);
             Hilo_Especial.Start();
         }
 
         private void Iniciar_Ventana_Especial()
         {
-            Application.Run(_Ventana_Confirmacion);
+            Application.Run(_Ventana_Especial);
         }
 
-        //=================================================================
+        public void Agregar_Nuevo_Servicio_Especial(Object Sender,EventArgs e)
+        {
+            if (Ev_Agregar_Servicio_Especial != null)
+            {
+               Ev_Agregar_Servicio_Especial(Sender, EventArgs.Empty);
+            }
+        }
+
+
+
+        //=========================================================
+
+        private void Iniciar_Ventana_Error()
+        {
+            Application.Run(_Ventana_Error);
+        }
 
         #region Propiedades de Text Box
+
         public String Get_Cliente
         {
             get { return _Nombre_Cliente; }
@@ -250,8 +312,12 @@ namespace Vista
 
         #endregion
 
+        #region Atributos
+
         private Eliminar_Servicio _Ventana_Confirmacion;
         private Horario_Especial _Ventana_Especial;
+        private Errorcs _Ventana_Error;
+        
 
         private String _Nombre_Cliente;
         private String _Nombre_Beneficiado;
@@ -271,6 +337,7 @@ namespace Vista
         public event EventHandler Almacenar_Servicio;
         public event EventHandler Modificar_Servi;
         public event EventHandler Ev_Eliminar_Servicio;
+        public event EventHandler Ev_Agregar_Servicio_Especial;
 
         private String[] _Horas_Default = new String[] { "7:00:", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00" };
         private String[] _Dias_Default = new String[] {"L","K","M","J","V","L-K","L-M","L-J","L-V","K-M","K-J","K-V","M-J","M-V","J-V" };
@@ -279,7 +346,7 @@ namespace Vista
 
 
 
-
+        #endregion
 
 
         #region Auto Generado
