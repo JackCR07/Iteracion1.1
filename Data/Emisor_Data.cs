@@ -43,10 +43,8 @@ namespace Data
             bool conecto = coneccion.OpenConnection();
             if (conecto)
             {
-                MySqlCommand cmd = new MySqlCommand("almacenarservicio", coneccion.connection);
-                cmd.Parameters.Add(new MySqlParameter("nom", pDato.getNombre));
-                cmd.Parameters.Add(new MySqlParameter("cup", pDato.getCupo_Disponible));
-                cmd.Parameters.Add(new MySqlParameter("cost", cost));
+                MySqlCommand cmd = new MySqlCommand("almacenarhorarioxservicio", coneccion.connection);
+                cmd.Parameters.Add(new MySqlParameter("ids", pDato.getNombre));
                 cmd.Parameters.Add(new MySqlParameter("dia", pHorario.getDias));
                 cmd.Parameters.Add(new MySqlParameter("h1", pHorario.getHora_Inicio.ToString()+":00"));
                 cmd.Parameters.Add(new MySqlParameter("h2", pHorario.getHora_Final.ToString() + ":00"));
@@ -98,7 +96,7 @@ namespace Data
             if (conecto)
             {
                 MySqlCommand cmd = new MySqlCommand("modificarservicio", coneccion.connection);
-                cmd.Parameters.Add(new MySqlParameter("ids", pId_Servicio_A_Modificar));
+                cmd.Parameters.Add(new MySqlParameter("idhs", pId_Servicio_A_Modificar));
                 cmd.Parameters.Add(new MySqlParameter("cup", pNuevo_Servicio.getCupo_Disponible));
                 cmd.Parameters.Add(new MySqlParameter("cost", cost));
                 cmd.Parameters.Add(new MySqlParameter("dia", pNuevo_Horario.getDias));

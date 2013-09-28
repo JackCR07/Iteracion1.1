@@ -56,7 +56,7 @@ DROP TABLE IF EXISTS `cii_contrato`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cii_contrato` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `NombreNi—o` varchar(40) NOT NULL,
+  `NombreNi√±o` varchar(40) NOT NULL,
   `Costo` float NOT NULL,
   `CII_Funcionario_ID` int(11) NOT NULL,
   `fk_cii_usuario_id` int(11) NOT NULL,
@@ -115,7 +115,7 @@ DROP TABLE IF EXISTS `cii_funcionario`;
 CREATE TABLE `cii_funcionario` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(30) NOT NULL,
-  `Contrase—a` varbinary(128) DEFAULT NULL,
+  `Contrase√±a` varbinary(128) DEFAULT NULL,
   `CII_TipoFuncionario_ID` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `fk_CII_Funcionario_CII_TipoFuncionario_idx` (`CII_TipoFuncionario_ID`),
@@ -129,7 +129,7 @@ CREATE TABLE `cii_funcionario` (
 
 LOCK TABLES `cii_funcionario` WRITE;
 /*!40000 ALTER TABLE `cii_funcionario` DISABLE KEYS */;
-INSERT INTO `cii_funcionario` VALUES (1,'Jack',AES_ENCRYPT('hola','supreme'),1),(2,'Fabian',AES_ENCRYPT('hola','supreme'),1),(3,'Fefo',AES_ENCRYPT('hola','supreme'),2);
+INSERT INTO `cii_funcionario` VALUES (1,'Jack','ÿÓ∆õ-|pΩKCy∏¿+ò¡',1),(2,'Fabian','ÿÓ∆õ-|pΩKCy∏¿+ò¡',1),(3,'Fefo','ÿÓ∆õ-|pΩKCy∏¿+ò¡',2);
 /*!40000 ALTER TABLE `cii_funcionario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -156,7 +156,7 @@ CREATE TABLE `cii_horario` (
 
 LOCK TABLES `cii_horario` WRITE;
 /*!40000 ALTER TABLE `cii_horario` DISABLE KEYS */;
-INSERT INTO `cii_horario` VALUES (1,'L-V','06:00:00','16:30:00',NULL),(2,'L-V','07:00:00','07:30:00',NULL),(3,'L-V','09:00:00','09:15:00',NULL),(4,'L-V','11:00:00','12:00:00',NULL),(5,'L-V','15:00:00','15:15:00',NULL),(6,'L-K','08:00:00','09:00:00',NULL),(7,'K-M','09:30:00','10:30:00',NULL),(8,'M-V','12:30:00','13:30:00',NULL),(9,'L-V','14:00:00','15:00:00',NULL),(10,'L-V','07:00:00','07:30:00',NULL);
+INSERT INTO `cii_horario` VALUES (1,'L-V','06:00:00','16:30:00',NULL),(2,'L-V','07:00:00','07:30:00',NULL),(3,'L-V','09:00:00','09:15:00',NULL),(4,'L-V','11:00:00','12:00:00',NULL),(5,'L-V','15:00:00','15:15:00',NULL),(6,'L-K','08:00:00','09:00:00',NULL),(7,'K-M','09:30:00','10:30:00',NULL),(8,'M-V','12:30:00','13:30:00',NULL),(9,'L-V','14:00:00','15:00:00',NULL),(10,'L-V','07:00:00','08:00:00',NULL);
 /*!40000 ALTER TABLE `cii_horario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,7 +214,7 @@ CREATE TABLE `cii_servicio` (
 
 LOCK TABLES `cii_servicio` WRITE;
 /*!40000 ALTER TABLE `cii_servicio` DISABLE KEYS */;
-INSERT INTO `cii_servicio` VALUES (1,'Cuido General',NULL,6500,1),(2,'Alimentacion',NULL,4500,2),(3,'Canto',35,5000,2),(4,'Pintura',35,2500,2),(5,'Musica',35,3000,2),(6,'Deporte',NULL,2000,2),(7,'Clases',NULL,3500,2);
+INSERT INTO `cii_servicio` VALUES (1,'Cuido General',NULL,6500,1),(2,'Alimentacion',NULL,4500,2),(3,'Canto',35,5000,2),(4,'Pintura',35,2500,2),(5,'Musica',35,3000,2),(6,'Deporte',NULL,2000,2),(7,'Clases',0,200,2);
 /*!40000 ALTER TABLE `cii_servicio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -276,7 +276,7 @@ DROP TABLE IF EXISTS `cii_usuario`;
 CREATE TABLE `cii_usuario` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(15) NOT NULL,
-  `Contrase—a` varbinary(128) NOT NULL,
+  `Contrase√±a` varbinary(128) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -294,6 +294,33 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'cii'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `almacenarhorarioxservicio` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `almacenarhorarioxservicio`(in ids int,IN dia varchar(50),IN h1 time,IN h2 time)
+BEGIN
+declare idh int;
+set ids=(select id from cii_servicio where id=ids);
+if ids is not null then
+Insert into cii_horario(Dias,HoraInicio,HoraFin)
+values (dia,h1,h2);
+set idh=(SELECT LAST_INSERT_ID());
+Insert into cii_horarioxservicio(fk_cii_horario_id,fk_cii_servicio_id)
+values(idh,ids);
+end if;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `almacenarservicio` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -356,19 +383,17 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `eliminarservicio`(IN ids int,out res bool)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `eliminarservicio`(IN idhs int,out res bool)
 BEGIN
 declare idh int;
 set res=false;
-set idh=(select fk_cii_horario_id from cii_horarioxservicio where fk_cii_servicio_id=ids);
+set idh=(select fk_cii_horario_id from cii_horarioxservicio where id=idhs);
 if idh IS NOT NULL then
 set res=true;
 Delete from cii_horarioxservicio
-where fk_cii_servicio_id=ids;
+where id=idhs;
 Delete from cii_horario
 where id=idh;
-Delete from cii_servicio
-where id=ids;
 end if;
 END ;;
 DELIMITER ;
@@ -468,6 +493,8 @@ while idhs<=maxid DO
 set ids=(select fk_cii_servicio_id from cii_horarioxservicio where ID=idhs);
 set idh=(select fk_cii_horario_id from cii_horarioxservicio where ID=idhs);
 set ind=(select especial from cii_horario where id=idh);
+if ids is not null then
+if idh is not null then
 if ind is null then
 set nom=(select nombre from cii_servicio where id=ids);
 set @d=(select Dias from cii_horario where id=idh);
@@ -475,6 +502,8 @@ set @h1=(select HoraInicio from cii_horario where id=idh);
 set @h2=(select @h2:=HoraFin from cii_horario where id=idh);
 set lista=concat(lista,idhs,' ',nom,' ',@d,' ',@h1,'-',@h2,' ');
 set lista=concat(lista,'\n');
+end if;
+end if;
 end if;
 set idhs=idhs+1;
 END WHILE;
@@ -512,6 +541,8 @@ while idhs<=maxid DO
 set ids=(select fk_cii_servicio_id from cii_horarioxservicio where ID=idhs);
 set idh=(select fk_cii_horario_id from cii_horarioxservicio where ID=idhs);
 set ind=(select especial from cii_horario where id=idh);
+if ids is not null then
+if idh is not null then
 if ind is not null then
 set nom=(select nombre from cii_servicio where id=ids);
 set @d=(select Dias from cii_horario where id=idh);
@@ -519,6 +550,8 @@ set @h1=(select HoraInicio from cii_horario where id=idh);
 set @h2=(select @h2:=HoraFin from cii_horario where id=idh);
 set lista=concat(lista,idhs,' ',nom,' ',@d,' ',@h1,'-',@h2,' ');
 set lista=concat(lista,'\n');
+end if;
+end if;
 end if;
 set idhs=idhs+1;
 END WHILE;
@@ -571,12 +604,15 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `modificarservicio`(IN ids int,IN cup int,IN cost float,IN dia varchar(50),IN h1 time,IN h2 time,out res bool)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `modificarservicio`(IN idhs int,IN cup int,IN cost float,IN dia varchar(50),IN h1 time,IN h2 time,out res bool)
 BEGIN
 declare idh int;
+declare ids int;
+set ids=(select fk_cii_servicio_id from cii_horarioxservicio where id=idhs);
 set res=false;
-set idh=(select fk_cii_horario_id from cii_horarioxservicio where fk_cii_servicio_id=ids);
+set idh=(select fk_cii_horario_id from cii_horarioxservicio where id=idhs);
 if idh IS NOT NULL then
+if ids is not null then
 set res=true;
 if cup IS NOT NULL then
 UPDATE cii_servicio
@@ -609,6 +645,7 @@ HoraFin=h2
 where id=idh;
 end if;
 end if;
+end if;
 
 END ;;
 DELIMITER ;
@@ -626,7 +663,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `NuevoContrato`(in ni—o varchar(40),in cost float,in funcionarioid varchar(30),in user varchar(15),out res bool, out idc int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `NuevoContrato`(in ni√±o varchar(40),in cost float,in funcionarioid varchar(30),in user varchar(15),out res bool, out idc int)
 BEGIN
 declare idf int;
 declare idu int;
@@ -636,8 +673,8 @@ set idf=(select id from cii_funcionario where nombre=funcionarioid);
 if idf is not null then
 if idu is not null then
 set res=true;
-Insert into cii_contrato(nombreni—o,costo,cii_funcionario_id,fk_cii_usuario_id)
-values(ni—o,cost,idf,idu);
+Insert into cii_contrato(nombreni√±o,costo,cii_funcionario_id,fk_cii_usuario_id)
+values(ni√±o,cost,idf,idu);
 set idc=(select LAST_INSERT_ID());
 end if;
 end if;
@@ -662,7 +699,7 @@ BEGIN
 Declare temp int;
 Declare idtf int; 
 set res=FALSE;
-set temp=(select id from CII_Funcionario where Nombre=nom and Contrase—a=AES_ENCRYPT(pass,'supreme'));
+set temp=(select id from CII_Funcionario where Nombre=nom and Contrase√±a=AES_ENCRYPT(pass,'supreme'));
 set res=(select temp IS NOT NULL);
 set idtf=(select CII_TipoFuncionario_ID from CII_Funcionario where id=temp);
 set tipou=(select Nombre from CII_TipoFuncionario where id=idtf);
@@ -684,4 +721,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-09-27  6:33:44
+-- Dump completed on 2013-09-27 17:59:49
